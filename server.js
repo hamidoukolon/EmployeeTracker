@@ -9,8 +9,20 @@ var fs = require('fs')
 
 const askThequestions = async ()  => {
   try { 
-    let {user} = await prompt(question.whatYouwantTodo);
-   
+    let {user} = await  prompt(question.whatYouwantTodo)
+    .then(answer => {
+      switch(answer) {
+        case "ADD":
+          prompt(question.whouWouldyouliketoadd)
+          break;
+        case "VIEW":
+          prompt(question.whouWouldyouliketoview)
+          break;
+        case "UPDATE":
+          prompt(question.UpdateEmployeerole)
+          break;
+      }
+    });
 
 }catch (error) {
     console.log(error)
@@ -20,44 +32,31 @@ const askThequestions = async ()  => {
 }
 
 
-const getEmployee = async ans => {
-  try {
-
-      if (ans === "update") {
-          let answer = await prompt(question.UpdateEmployeerole);
-    
-          console.log(question.UpdateEmployeerole)
-      }
-    
-  } catch (error) {
-      console.log(error)
-  }
-}
 
 askThequestions();
 
-// Sets up the Express App
+Sets up the Express App
+=============================================================
+var app = express();
+var PORT = 3000;
+
+
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+app.get("/api/notes", function(req, res){
+  res.json(db)
+})
+
+
+
+
+
+
+// Starts the server to begin listening
 // =============================================================
-// var app = express();
-// var PORT = 3000;
-
-
-// // Sets up the Express app to handle data parsing
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-
-
-// app.get("/api/notes", function(req, res){
-//   res.json(db)
-// })
-
-
-
-
-
-
-// // Starts the server to begin listening
-// // =============================================================
-// app.listen(PORT, function () {
-//     console.log("App listening on PORT " + PORT);
-//   });
+app.listen(PORT, function () {
+    console.log("App listening on PORT " + PORT);
+  });

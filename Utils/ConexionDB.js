@@ -20,11 +20,10 @@ connection.connect(function(err) {
   afterConnection();
 });
 
-// function afterConnection() {
-//     connection.query("SELECT * FROM products", function(err, res) {
-//       if (err) throw err;
-//       console.log(res);
-//       connection.end();
-//     });
-//   }
+connection.connect();
+
+connection.query = util.promisify(connection.query);
+
+module.exports = connection;
+
   
