@@ -1,45 +1,30 @@
 const connection = require("./connection");
 
-class DB
-{
-    constructor()
-    {
+
+class DB {
+    constructor(connection) {
         this.connection = connection;
     }
 
-
-
-    getSongsByArtist(artist)
-    {
+    viewAllRoles() {
         return this.connection.query(
-            "SELECT * FROM songs WHERE artist = ?;",
-            [artist]
-        );
+            "SELECT role.id, role.title, department.Name_in_department AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id"
+        )
     }
 
-    getDoubleArtists()
-    {
+    createEmployee(employee) {
+        return this.connection.query("INSERT INTO employee SET ?", employee)
+    }
+    viewEmployee(employee) {
         return this.connection.query(
-            "SELECT artist FROM songs GROUP BY ARTIST having COUNT(*) > 1;",
+            "SELECT * FROM  WHERE artist = ?;",
+            [employee]
         );
+
     }
 
-    getSongsByRange(start, end)
-    {
-        return this.connection.query(
-            "SELECT * FROM songs where position BETWEEN ? AND ?;",
-            [start, end]
-        );
-    }
 
-    getSongsByTitle(title)
-    {
-        return this.connection.query(
-            "SELECT * FROM songs WHERE song = ?;",
-            [title],
-        );
-    }
 
 }
 
-module.exports = DB;
+module.exports = new DB(connection);
